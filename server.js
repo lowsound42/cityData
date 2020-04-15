@@ -4,7 +4,7 @@ let mongoose = require('mongoose');
 let app = express();
 require('dotenv').config()
 const db = process.env.mongoURI;
-const port = 8080;
+const port =  process.env.PORT || 8080;
 
 
 // Import routes
