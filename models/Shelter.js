@@ -57,6 +57,6 @@ const ShelterSchema = new Schema({
 }, {collection: 'shelterData'});
 
 
-const shelterData = mongoose.model("shelterData", ShelterSchema)
+const shelterData = mongoose.model("shelterData", ShelterSchema, "shelterData")
 
 module.exports = shelterData;
