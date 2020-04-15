@@ -1,5 +1,3 @@
-let mongoose = require('mongoose');
-const db = process.env.mongoURI;
 var shelterModel = require('../models/Shelter.js');
 const https = require('https');
 const packageName = "daily-shelter-occupancy";
