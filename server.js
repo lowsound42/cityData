@@ -1,11 +1,13 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
+const cors = require('cors');
 let app = express();
 require('dotenv').config()
 const db = process.env.mongoURI;
 const port =  process.env.PORT || 8080;
 
+app.use(cors());
 
 // Import routes
 let apiRoutes = require("./routes/api-routes");
