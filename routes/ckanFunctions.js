@@ -12,12 +12,16 @@ shelterModel.countDocuments({}, function( err, count){
 
 var date = new Date();
 var day = date.getDate() - 1;
+var month = date.getMonth() + 1;
+var year = date.getFullYear();
+console.log(month);
 console.log(day);
+console.log(year);
 
 var schedule = require('node-schedule');
  
 var rule = new schedule.RecurrenceRule();
-rule.hour = 12;
+rule.hour = 15;
  
 var j = schedule.scheduleJob(rule, function(){
 
@@ -69,7 +73,52 @@ var j = schedule.scheduleJob(rule, function(){
   });
 
   const getNewData = resource => new Promise((resolve, reject) => {
-    https.get(`https://ckan0.cf.opendata.inter.prod-toronto.ca//api/3/action/datastore_search?id=5097e562-9ee0-41d2-bfd7-86878cf8fbcd&filters={"OCCUPANCY_DATE":"2020-04-${day}T00:00:00"}`, (response) => {
+    https.get(`https://ckan0.cf.opendata.inter.prod-toronto.ca//api/3/action/datastore_search?id=5097e562-9ee0-41d2-bfd7-86878cf8fbcd&filters={"OCCUPANCY_DATE":"${year}-${month}-${day}T00:00:00"}`, (response) => {
+        let dataChunks = [];
+        response
+            .on("data", (chunk) => {
+                dataChunks.push(chunk)
+            })
+            .on("end", () => {
+                let data = Buffer.concat(dataChunks)
+                var infor = (JSON.parse(data.toString()));
+                console.log(infor);
+                (async () => {
+                  try {
+                      for(let i=0; i<infor.result.records.length; i++) {
+                        console.log(i);
+                            var sData = new shelterModel();
+                            sData._id = infor.result.records[i]._id;
+                            sData.OCCUPANCY_DATE = infor.result.records[i].OCCUPANCY_DATE;
+                            sData.SECTOR = infor.result.records[i].SECTOR;
+                            sData.SHELTER_POSTAL_CODE = infor.result.records[i].SHELTER_POSTAL_CODE;
+                            sData.CAPACITY = infor.result.records[i].CAPACITY;
+                            sData.SHELTER_PROVINCE = infor.result.records[i].SHELTER_PROVINCE;
+                            sData.FACILITY_NAME = infor.result.records[i].FACILITY_NAME;
+                            sData.SHELTER_NAME = infor.result.records[i].SHELTER_NAME;
+                            sData.OCCUPANCY = infor.result.records[i].OCCUPANCY;
+                            sData.ORGANIZATION_NAME = infor.result.records[i].ORGANIZATION_NAME;
+                            sData.SHELTER_ADDRESS = infor.result.records[i].SHELTER_ADDRESS;
+                            sData.SHELTER_CITY = infor.result.records[i].SHELTER_CITY;
+                            sData.PROGRAM_NAME = infor.result.records[i].PROGRAM_NAME;
+                            sData.save().then(function (err, result){
+                              console.log('created!!!!');
+                            })
+                      }
+                  } catch (err) {
+                      console.error(err)
+                  }
+              })
+              getNewDataOffset();
+            })
+            .on("error", (error) => {
+                reject(error)
+            })
+    })
+  });
+
+  const getNewDataOffset = resource => new Promise((resolve, reject) => {
+    https.get(`https://ckan0.cf.opendata.inter.prod-toronto.ca//api/3/action/datastore_search?id=5097e562-9ee0-41d2-bfd7-86878cf8fbcd&filters={"OCCUPANCY_DATE":"${year}-${month}-${day}T00:00:00"}&offset=100`, (response) => {
         let dataChunks = [];
         response
             .on("data", (chunk) => {
