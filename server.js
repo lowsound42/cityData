@@ -22,6 +22,8 @@ app.use(bodyParser.json());
 app.use('/api', apiRoutes);
 app.use('/ckan', ckanFunctions);
 app.use('/shelterData', dbFunctions)
+app.use('/shelterData:date', dbFunctions)
+
 
 
 mongoose

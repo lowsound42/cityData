@@ -13,5 +13,16 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:date', async (req, res) => {
+  var date = req.params.date;
+    console.log(date);
+    console.log(`${date}`);
+    const shelters = await shelterModel.find({"OCCUPANCY_DATE":`${date}`});
+    try {
+      res.send(shelters);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+});
 
 module.exports = router;

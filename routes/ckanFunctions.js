@@ -21,7 +21,7 @@ console.log(year);
 var schedule = require('node-schedule');
  
 var rule = new schedule.RecurrenceRule();
-rule.hour = 15;
+rule.hour = 14;
  
 var j = schedule.scheduleJob(rule, function(){
 
