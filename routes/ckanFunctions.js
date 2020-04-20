@@ -54,9 +54,9 @@ const getNewData = resource => new Promise((resolve, reject) => {
                           sData.PROGRAM_NAME = infor.result.records[i].PROGRAM_NAME;
                           sData.save().then(function (err, result){
                             console.log('created!!!!');
-                            getNewDataOffset();
                           })
                     }
+                  getNewDataOffset();
                 } catch (err) {
                     console.error(err)
                 }
