@@ -24,6 +24,7 @@ var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
 rule.hour = 14;
  
+//weird
 var j = schedule.scheduleJob(rule, function(){
 
 const getNewData = resource => new Promise((resolve, reject) => {
