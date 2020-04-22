@@ -11,7 +11,7 @@ shelterModel.countDocuments({}, function( err, count){
 })
 
 var date = new Date();
-var day = date.getDate() - 1;
+var day = date.getDate();
 var year = date.getFullYear();
 var month = date.getMonth() + 1;
 console.log(day);
