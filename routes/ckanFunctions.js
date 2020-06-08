@@ -11,20 +11,26 @@ shelterModel.countDocuments({}, function( err, count){
 })
 
 var date = new Date();
-var day = date.getDate();
+var day = date.getDate() - 1;
 var year = date.getFullYear();
 var month = date.getMonth() + 1;
-console.log(day);
 console.log(month);
 console.log(year);
-
+if (day < 10){
+  day = '0' + day;
+}
+if (month < 10){
+  month = '0' + month;
+}
+console.log(day);
+console.log(month);
 
 var schedule = require('node-schedule');
  
 var rule = new schedule.RecurrenceRule();
 rule.hour = 14;
  
-//weird
+// weird
 var j = schedule.scheduleJob(rule, function(){
 
 const getNewData = resource => new Promise((resolve, reject) => {
