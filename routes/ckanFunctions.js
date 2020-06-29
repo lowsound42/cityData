@@ -28,7 +28,7 @@ console.log(month);
 var schedule = require('node-schedule');
  
 var rule = new schedule.RecurrenceRule();
-rule.hour = 14;
+rule.hour = 16;
  
 // weird
 var j = schedule.scheduleJob(rule, function(){
