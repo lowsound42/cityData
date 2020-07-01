@@ -25,58 +25,82 @@ router.get('/:date', async (req, res) => {
     }
 });
 
-
-router.get('/shelter/:name', async (req, res) => {
-  var name = req.params.name;
-  console.log(name);
-  if (name == 'main'){
-    const shelters = await shelterModel.find({$and: [
-      {"PROGRAM_NAME": "Womens' Residence - Main Program"},
-      {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
-    ]
+router.post('/array', async(req, res) => {
+  let shelters;
+  console.log(req.body.data);
+    req.body.data.map(item => {
+      console.log('HERES AN ITEM', item);
     })
-    try {
-      res.send(shelters);
-    } catch (err) {
-      res.status(500).send(err)
+    if (req.body.data != [])
+    {
+      let sheltersArray = [];
+      for (let i = 0; i < req.body.data.length; i++){
+        shelters = await shelterModel.find({$and: [
+          {"OCCUPANCY_DATE":`${req.body.data[i]}T00:00:00`},
+          {"SECTOR":`${req.body.sector}`}
+        ]})
+        sheltersArray.push(shelters);  
+      }
+      try {
+        res.send(sheltersArray);
+      } catch (err) {
+        res.status(500).send(err);
+      }
     }
-  }
-  else  if (name == 'alexandra'){
-    const shelters = await shelterModel.find({$and: [
-      {"PROGRAM_NAME": "Women's Res-Alexandra Hotel"},
-      {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
-    ]
-    })
-    try {
-      res.send(shelters);
-    } catch (err) {
-      res.status(500).send(err)
-    }
-  }
-  else  if (name == 'bellwoods'){
-    const shelters = await shelterModel.find({$and: [
-      {"PROGRAM_NAME": "Womens' Residence - Bellwoods House"},
-      {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
-    ]
-    })
-    try {
-      res.send(shelters);
-    } catch (err) {
-      res.status(500).send(err)
-    }
-  }
-  else  if (name == 'weather'){
-    const shelters = await shelterModel.find({$and: [
-      {"PROGRAM_NAME": "Women's Residence Extreme Weather Program"},
-      {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
-    ]
-    })
-    try {
-      res.send(shelters);
-    } catch (err) {
-      res.status(500).send(err)
-    }
-  }
 })
+
+
+// router.get('/shelter/:name', async (req, res) => {
+//   var name = req.params.name;
+//   console.log(name);
+//   if (name == 'main'){
+//     const shelters = await shelterModel.find({$and: [
+//       {"PROGRAM_NAME": "Womens' Residence - Main Program"},
+//       {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
+//     ]
+//     })
+//     try {
+//       res.send(shelters);
+//     } catch (err) {
+//       res.status(500).send(err)
+//     }
+//   }
+//   else  if (name == 'alexandra'){
+//     const shelters = await shelterModel.find({$and: [
+//       {"PROGRAM_NAME": "Women's Res-Alexandra Hotel"},
+//       {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
+//     ]
+//     })
+//     try {
+//       res.send(shelters);
+//     } catch (err) {
+//       res.status(500).send(err)
+//     }
+//   }
+//   else  if (name == 'bellwoods'){
+//     const shelters = await shelterModel.find({$and: [
+//       {"PROGRAM_NAME": "Womens' Residence - Bellwoods House"},
+//       {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
+//     ]
+//     })
+//     try {
+//       res.send(shelters);
+//     } catch (err) {
+//       res.status(500).send(err)
+//     }
+//   }
+//   else  if (name == 'weather'){
+//     const shelters = await shelterModel.find({$and: [
+//       {"PROGRAM_NAME": "Women's Residence Extreme Weather Program"},
+//       {$or: [{"OCCUPANCY_DATE": {"$regex":"2020-03"}}, {"OCCUPANCY_DATE": {"$regex":"2020-04"}},{"OCCUPANCY_DATE": {"$regex":"2020-05"}}, {"OCCUPANCY_DATE": {"$regex":"2020-06"}}]}
+//     ]
+//     })
+//     try {
+//       res.send(shelters);
+//     } catch (err) {
+//       res.status(500).send(err)
+//     }
+//   }
+// })
 
 module.exports = router;
