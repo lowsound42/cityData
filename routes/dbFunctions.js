@@ -49,6 +49,29 @@ router.post('/array', async(req, res) => {
     }
 })
 
+router.post('/singleShelter', async(req, res) => {
+  let shelters;
+  console.log(req.body.shelter);
+    req.body.data.map(item => {
+      console.log('HERES AN ITEM', item);
+    })
+    if (req.body.data != [])
+    {
+      let sheltersArray = [];
+      for (let i = 0; i < req.body.data.length; i++){
+        shelters = await shelterModel.find({$and: [
+          {"OCCUPANCY_DATE":`${req.body.data[i]}T00:00:00`},
+          {"FACILITY_NAME":`${req.body.shelter}`}
+        ]})
+        sheltersArray.push(shelters);  
+      }
+      try {
+        res.send(sheltersArray);
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    }
+})
 
 // router.get('/shelter/:name', async (req, res) => {
 //   var name = req.params.name;
