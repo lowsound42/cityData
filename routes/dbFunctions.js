@@ -72,7 +72,7 @@ router.post('/singleShelter', async(req, res) => {
         if (req.body.data[i].substring(0,4) == '2020'){
         shelters = await shelterModel.find({$and: [
           {"OCCUPANCY_DATE":`${req.body.data[i]}T00:00:00`},
-          {"FACILITY_NAME":`${req.body.shelter}`}
+          {"PROGRAM_NAME":`${req.body.shelter}`}
         ]})
         sheltersArray.push(shelters);  
       }
