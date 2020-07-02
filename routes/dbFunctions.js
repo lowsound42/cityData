@@ -27,7 +27,8 @@ router.get('/:date', async (req, res) => {
 
 router.post('/array', async(req, res) => {
   let shelters;
-  console.log(req.body.data);
+  let date;
+  console.log(req.body.data[0].substring(0,4));
     req.body.data.map(item => {
       console.log('HERES AN ITEM', item);
     })
@@ -35,11 +36,20 @@ router.post('/array', async(req, res) => {
     {
       let sheltersArray = [];
       for (let i = 0; i < req.body.data.length; i++){
+        if (req.body.data[i].substring(0,4) == '2020'){
         shelters = await shelterModel.find({$and: [
           {"OCCUPANCY_DATE":`${req.body.data[i]}T00:00:00`},
           {"SECTOR":`${req.body.sector}`}
         ]})
         sheltersArray.push(shelters);  
+      }
+      else {
+        shelters = await shelterModel.find({$and: [
+          {"OCCUPANCY_DATE":`${req.body.data[i]}`},
+          {"SECTOR":`${req.body.sector}`}
+        ]})
+        sheltersArray.push(shelters);  
+      }
       }
       try {
         res.send(sheltersArray);
@@ -59,12 +69,21 @@ router.post('/singleShelter', async(req, res) => {
     {
       let sheltersArray = [];
       for (let i = 0; i < req.body.data.length; i++){
+        if (req.body.data[i].substring(0,4) == '2020'){
         shelters = await shelterModel.find({$and: [
           {"OCCUPANCY_DATE":`${req.body.data[i]}T00:00:00`},
           {"FACILITY_NAME":`${req.body.shelter}`}
         ]})
         sheltersArray.push(shelters);  
       }
+      else {
+        shelters = await shelterModel.find({$and: [
+          {"OCCUPANCY_DATE":`${req.body.data[i]}`},
+          {"FACILITY_NAME":`${req.body.shelter}`}
+        ]})
+        sheltersArray.push(shelters);  
+      }
+    }
       try {
         res.send(sheltersArray);
       } catch (err) {
