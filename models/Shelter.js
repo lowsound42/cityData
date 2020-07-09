@@ -12,11 +12,11 @@ const ShelterSchema = new Schema({
   },
   ORGANIZATION_NAME: {
     type: String,
-    default: true
+    required: true
   },
   SHELTER_NAME: {
     type: String,
-    default: Date.now()
+    required: true
   },
   SHELTER_ADDRESS: {
     type: String,
@@ -53,6 +53,10 @@ const ShelterSchema = new Schema({
   CAPACITY: {
     type: Number,
     required: true
+  },
+  TARGET: {
+    type: Number,
+    required: false
   }
 }, {collection: 'shelterData'});
 
