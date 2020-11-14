@@ -7,7 +7,8 @@
   "description": "An app to store city shelter data",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Omario",
   "license": "ISC",
