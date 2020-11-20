@@ -2,7 +2,7 @@
   "name": "city-data-api",
   "version": "1.0.0",
   "engines": {
-    "node": "15.x"
+    "node": "12.x"
   },
   "description": "An app to store city shelter data",
   "main": "server.js",
